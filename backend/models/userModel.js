@@ -1,5 +1,11 @@
-// import { Schema } from 'mongoose';
+  import { shema } from 'mongoose';
 
-// const user = new Schema({
+const userShema = new Shema ({
+  userName:
+    type: string,
+  required: true
+},
+messages: [{ type: shema.Type.ObjectId. ref:'Message' }]
+                             });
 
-// })
+export default userShema;
