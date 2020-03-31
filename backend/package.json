@@ -18,6 +18,8 @@
     "helmet": "^3.21.3",
     "hpp": "^0.2.3",
     "morgan": "~1.10.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.6",
     "node-emoji": "^1.10.0",
     "response-time": "^2.3.2",
     "serve-favicon": "^2.5.0"
