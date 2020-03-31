@@ -1,11 +1,16 @@
-  import { shema } from 'mongoose';
+import { Schema } from 'mongoose';
 
-const userShema = new Shema ({
-  userName:
-    type: string,
-  required: true
-},
-messages: [{ type: shema.Type.ObjectId. ref:'Message' }]
-                             });
+const user = new Schema({
+  userName: {
+    type: String,
+    required: true
+  },
+  messages: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Message'
+    }
+  ]
+});
 
-export default userShema;
+export default user;
