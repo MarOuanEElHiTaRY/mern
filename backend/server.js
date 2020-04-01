@@ -11,17 +11,17 @@ import responseTime from 'response-time';
 import favicon from 'serve-favicon';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-// import sanitize from 'express-mongo-sanitize';
+import mongoSanitize from 'express-mongo-sanitize';
 
 // ROUTERS
 import indexRouter from './routes/index';
 import playerRouter from './routes/player';
 import messageRouter from './routes/message';
 import userRouter from './routes/user';
+import personRouter from './routes/person';
+import fishRouter from './routes/fish';
 
 const app = express();
-
-// app.use(sanitize);
 
 // secure the server by setting various HTTP headers
 app.use(helmet());
@@ -58,22 +58,25 @@ app.use(morgan('dev'));
 app.use(responseTime());
 
 // limit repeated requests to endpoints such as password reset
-app.use(
-  new rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50, // limit each IP to 50 requests per windowMs
-    message: 'Too many requests from this IP, please try again in 15 minutes'
-  })
-);
+// app.use(
+//   new rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 200, // limit each IP to 50 requests per windowMs
+//     message: 'Too many requests from this IP, please try again in 15 minutes'
+//   })
+// );
 
 dotenv.config();
+
+app.use(mongoSanitize());
 
 mongoose
   .connect(
     `mongodb://${process.env.DBUSER}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.MONGO_PORT}/${process.env.DATABASE}`,
     {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useCreateIndex: true
     }
   )
   .then(() => {
@@ -85,6 +88,8 @@ app.use('/', indexRouter);
 app.use('/player', playerRouter);
 app.use('/message', messageRouter);
 app.use('/user', userRouter);
+app.use('/person', personRouter);
+app.use('/fish', fishRouter);
 
 // setup ip address and port number
 app.set('port', process.env.PORT || 3000);
